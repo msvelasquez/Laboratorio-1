@@ -5,7 +5,7 @@ using namespace std;
 
 /*
 
-   Buen@s [HORA DEL DIA], profesor.
+   Buen@s horaDelDia(), profesor.
 
    Como fue acordado, en este archivo estan incluidos todos los problemas
    del laboratorio 1. Para revisar cada uno simplemente remueva los inicios
@@ -20,6 +20,9 @@ int factorial(unsigned short int a);
 bool esPali(unsigned int a);
 int digitos(unsigned int a);
 int flipNum(unsigned int a);
+int cantDivisores(int a);
+int cantColatz(int a);
+void printColatz(int a);
 
 /*
 
@@ -106,7 +109,7 @@ int main(){
 
 /*
 
-//Problema #4 Tiempo transcurrido en hora militar
+//Problema #4, Tiempo transcurrido en hora militar
 
 int main(){
 
@@ -160,7 +163,7 @@ int main(){
 
 /*
 
-   //Problema #6 Valor aproximade de euler
+   //Problema #6, Valor aproximade de euler
 
 int main(){
     //Inicializacion de variables
@@ -184,23 +187,35 @@ int main(){
  }
 */
 
-//
+/*
 
-   //Problema #8 Imprimir suma de multiplos unicos
+   //Problema #8, Imprimir suma de multiplos unicos
 
 int main(){
-    unsigned int a = 0; //Primer numero para generar multiplos
-    unsigned int b = 0; //Segundo numero para generar multiplos
-    unsigned int c = 0; //Maximo valor de los multiplos
+    unsigned short int a = 13; //Primer numero para generar multiplos
+    unsigned short int b = 29; //Segundo numero para generar multiplos
+    unsigned short int c = 1000; //Maximo valor de los multiplos
+    unsigned int sum = a; // Sumatoria de los multiplos
 
+    cout << a;
+    for(int d = 2;a*d<c;d++){
+        cout << "+" << a*d;
+        sum += (a*d);
+    }
+
+    for(int d = 1;b*d<c;d++){
+        if((b*d)%a!=0){cout << "+" << b*d; sum+=(b*d);}
+    }
+
+    cout << "=" << sum << endl;
 
 return 0;
  }
-//
+*/
 
 /*
 
-   //Problema #10 enesimo numero primo
+   //Problema #10, enesimo numero primo
 
 int main(){
 
@@ -224,7 +239,7 @@ return 0;
 
 /*
 
-   //Problema #12 mayor divisor primo
+   //Problema #12, mayor divisor primo
 
 int main(){
 
@@ -243,7 +258,7 @@ return 0;
 
 /*
 
-   //Problema #14 Numero palindromo maximo con dos numeros de tres digitos
+   //Problema #14, Numero palindromo maximo con dos numeros de tres digitos
 
 int main(){
     unsigned int maxPali = 0; //Numero palindromo maximo encontrado
@@ -269,9 +284,21 @@ return 0;
 
 /*
 
-   //Problema #16
+   //Problema #16, Elemento inicial menor a k con serie de Colatz mas larga que k
 
 int main(){
+
+    int k = 13; //Semilla inicial para calcular su serie Colatz (Numero k)
+    int j = 0; //Semilla con serie mas larga menor que k (Numero j)
+
+    for(int i = k; i != 0; i--){
+        if(cantColatz(i)>cantColatz(k)){ j = i; }
+    }
+
+
+    //Salidas
+    cout << "La serie mas larga es con la semilla: " << j << ", teniendo " << cantColatz(j) << " terminos." << endl << "Serie: ";
+    printColatz(j);
 
 return 0;
  }
@@ -279,13 +306,22 @@ return 0;
 
 /*
 
-   //Problema #17
+   //Problema #17 Menor numero triangular con k divisores
 
 int main(){
 
+    unsigned int k = 7; //Numero k (se halla el menor numero triangular con mas que k divisores)
+    unsigned int triagMax = 1; //Numero triangular
+
+    for(int i = 0 ; cantDivisores(triagMax)<=k ; i++){
+        triagMax = (i*(i+1))/2;
+    }
+    cout << "El numero es: " << triagMax << " que tiene " << cantDivisores(triagMax) << " divisores." << endl;
 return 0;
  }
 */
+
+//Desarrollo de funciones
 
 int factorial(unsigned short int a){ //Returna el factorial de un numero
     unsigned int fact = 1;
@@ -316,7 +352,7 @@ bool esPali(unsigned int a){ //Returna true si un numero es palindromo y false s
 
 }
 
-int digitos(unsigned int a){
+int digitos(unsigned int a){ //Returna la cantidad de digitos de un numero
     unsigned short int b = 0;
     while(a>0){
         a = a/10;
@@ -325,7 +361,7 @@ int digitos(unsigned int a){
     return b;
 }
 
-int flipNum(unsigned int a){
+int flipNum(unsigned int a){ //Retorna un numero al leerlo de derecha a izquerda
     unsigned int flip = 0;
     unsigned short int digits = digitos(a);
 
@@ -337,4 +373,35 @@ int flipNum(unsigned int a){
     return flip;
 }
 
+int cantDivisores(int a){ //Retorna la cantidad de divisores de un numero
+    int divisores = 1;
+    for(int b = 1; b<=(a/2); b++){ if(a%b==0){divisores+=1;} }
+    return divisores;
+}
+
+int cantColatz(int a){
+    int rep = 0;
+    while(a != 1){
+        if(a%2==0){
+            a = a/2;
+        }else{ a = (3*a)+1; }
+        rep += 1;
+    }
+    return rep+1;
+}
+
+void printColatz(int a){
+    cout << a;
+    while(a != 1){
+        cout << ",";
+        if(a%2==0){
+            a = a/2;
+            cout << a;
+        }else{
+            a = (3*a)+1;
+            cout << a;
+        }
+    }
+    cout << "." << endl;
+}
 //cout << "Feliz navidad y prospero " << convertir_a_espanol("year") << " nuevo profesor." << endl;
